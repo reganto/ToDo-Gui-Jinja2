@@ -1,0 +1,47 @@
+{% extends "bootstrap/base.html" %}
+
+{% block head  %}
+<title>Todo</title>
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
+{% endblock %}
+{% endblock %}
+
+{% block body  %}
+<div class="container jumbotron">
+{% block title %}
+<h1>Todo</h1>
+{% endblock %}
+  <div class="top-buttons">
+    <button type="button" name="new" id="new">New</button>
+    <button type="button" name="completed" id="completed">completed</button>
+    <button type="button" name="incompleted" id="incompleted">incompleted</button>
+  </div>
+  <div class="jobs">
+    <div class="i-job">
+      <div class="left">
+        <p>Job1</p>
+      </div>
+      <div class="right">
+        <button type="button" name="edit" id="edit">Edit</button>
+        <button type="button" name="delete" id="delete">Delete</button>
+        <button type="button" name="done" id="done">Done</button>
+      </div>
+    </div>
+
+    <div class="c-job">
+      <div class="left">
+        <s>Job1</s>
+      </div>
+      <div class="right">
+        <button type="button" name="back" id="back">Back</button>
+      </div>
+    </div>
+  </div>
+
+</div> 
+
+<script src="{{ url_for('static', filename='js/todo.js')  }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.min.js')  }}"></script>
+<script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+{% endblock  %}

@@ -1,0 +1,22 @@
+{% extends "bootstrap/base.html" %}
+
+
+{% block head  %}
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
+{% endblock %}
+{% endblock %}
+
+{% block body %}
+<div class="container jumbotron">
+  <form method="POST">
+    <input type="text" name="title" id="title" required="required" placeholder="Title" />
+    <textarea cols=50 rows=5 id="text" name="text" placeholder="Job"></textarea>
+    <input type="checkbox" name="c" id="c" />Completed
+    <input type="submit" value="register" />
+  </form>
+</div>
+<script src="{{ url_for('static', filename='js/todo.js')  }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.min.js')  }}"></script>
+<script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+{% endblock %}
