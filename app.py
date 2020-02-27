@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_bootstrap import Bootstrap
@@ -23,4 +23,4 @@ class Job(db.Model):
 
 @app.route("/")
 def index():
-    return "index"
+    return render_template("new.html")
