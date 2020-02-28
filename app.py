@@ -1,7 +1,7 @@
 import os
 from functools import wraps
 
-from flask import Flask, request, render_template, redirect, url_for, jsonify
+from flask import Flask, request, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_bootstrap import Bootstrap
@@ -76,16 +76,8 @@ def incompleted_jobs_list():
 @app.route("/comp/")
 def completed_jobs_list():
     cjobs = Job.query.filter(Job.completed == True).all()
-    jobs = []
-    for job in cjobs:
-        job_dict = {}
-        job_dict["title"] = job.title
-        job_dict["text"] = job.text
-        job_dict["id"] = job.id
-        jobs.append(job_dict)
- 
-    return jsonify(jobs)
- 
+    return render_template("todo.html", cjobs=cjobs)
+  
 
 @app.route("/edit/<int:job_id>/", methods=["GET", "POST"])
 @job_exist
