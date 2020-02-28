@@ -11,7 +11,7 @@
 <div class="container jumbotron">
   <form method="POST">
     {{ form.csrf_token }}
-    {{ wtf.form_field(form.title) }}
+    {{ wtf.form_field(form.title)}}
     {{ wtf.form_field(form.text) }}
     {{ wtf.form_field(form.completed) }}
     <input type="submit" value="register" class="btn btn-primary" />

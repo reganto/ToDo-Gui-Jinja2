@@ -65,9 +65,29 @@ def completed_jobs_list():
     return render_template("todo.html", cjobs=cjobs)
   
 
-@app.route("/edit/<int:job_id>/")
+@app.route("/edit/<int:job_id>/", methods=["GET", "POST"])
 def edit(job_id):
-    return "edit"
+    try:
+        job = Job.query.filter(Job.id == job_id).one()
+    except Exception:
+        return "Invalid Job"
+
+    form = NewForm(title=job.title, text=job.text, completed=job.completed)
+    
+    if form.validate_on_submit():
+        title = form.title.data
+        text = form.text.data
+        completed = form.completed.data
+
+        job.title = title
+        job.text = text
+        job.completed = completed
+
+        db.session.add(job)
+        db.session.commit()
+        return "Job updated"
+
+    return render_template("new.html", form=form)
 
 
 @app.route("/delete/<int:job_id>/")
