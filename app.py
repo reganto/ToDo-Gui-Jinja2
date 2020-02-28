@@ -1,4 +1,5 @@
 import os
+from functools import wraps
 
 from flask import Flask, request, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
@@ -28,6 +29,19 @@ class NewForm(FlaskForm):
     title = StringField("Title", validators=[InputRequired()])
     text = TextAreaField("Text")
     completed = BooleanField("Completed")
+
+
+def job_exist(func):
+    @wraps(func)
+    def wrapper(job_id):
+        try:
+            job = Job.query.filter(Job.id == job_id).one()
+        except Exception:
+            return "Invalid Job"
+        else:
+            return func(job)
+     
+    return wrapper        
 
 
 @app.route("/")
@@ -66,11 +80,9 @@ def completed_jobs_list():
   
 
 @app.route("/edit/<int:job_id>/", methods=["GET", "POST"])
+@job_exist
 def edit(job_id):
-    try:
-        job = Job.query.filter(Job.id == job_id).one()
-    except Exception:
-        return "Invalid Job"
+    job = job_id
 
     form = NewForm(title=job.title, text=job.text, completed=job.completed)
     
@@ -85,17 +97,40 @@ def edit(job_id):
 
         db.session.add(job)
         db.session.commit()
-        return "Job updated"
+        return redirect(url_for("incompleted_jobs_list")) 
 
     return render_template("new.html", form=form)
 
 
 @app.route("/delete/<int:job_id>/")
+@job_exist
 def delete(job_id):
-    return "delete"
+    job = job_id
+
+    db.session.delete(job)
+    db.session.commit()
+    return redirect(url_for("incompleted_jobs_list"))
 
 
 @app.route("/done/<int:job_id>/")
+@job_exist
 def done(job_id):
-    return "done"
- 
+    job = job_id
+
+    job.completed = True
+    db.session.add(job)
+    db.session.commit()
+    
+    return redirect(url_for("incompleted_jobs_list"))
+
+
+@app.route("/back/<int:job_id>/")
+@job_exist
+def back(job_id):
+    job = job_id
+
+    job.completed = False
+    db.session.add(job)
+    db.session.commit()
+
+    return redirect(url_for("completed_jobs_list"))
