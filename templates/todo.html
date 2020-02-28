@@ -5,6 +5,12 @@
 {% block style %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
 {% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/bootstrap.min.js')  }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.min.js.map')  }}"></script>
+<script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/todo.js')  }}"></script>
+{% endblock %}
 {% endblock %}
 
 {% block body  %}
@@ -12,14 +18,14 @@
 {% block title %}
 <h1>Todo</h1>
 {% endblock %}
-  <div class="top-buttons">
+  <div id="hello" class="top-buttons">
     <a href="{{ url_for('new') }}" class="btn btn-outline-primary">New Job</a><br /><br />
-    <a href="{{ url_for('completed_jobs_list') }}" class="btn btn-secondary btn-sm">Completed Jobs</a>
-    <a href="{{ url_for('incompleted_jobs_list') }}" class="btn btn-primary btn-sm">Incompleted Jobs</a><br /><br />
+    <a id="comp" class="btn btn-secondary btn-sm">Completed Jobs</a>
+    <a href="{{ url_for('incompleted_jobs_list') }}" class="btn btn-primary btn-sm incomp">Incompleted Jobs</a><br /><br />
   </div>
   <div class="jobs container">
     {% if ijobs %}
-    <div class="i-job row">
+    <div class="i-job row" id="ijob">
       {% for job in ijobs %}
       <div class="left col-8">
         <h2 title="{{ job.text }}">{{ job.title }}</h2>
@@ -33,23 +39,17 @@
     </div>
     {% endif %}
 
-    {% if cjobs %}
-    <div class="c-job row">
-      {% for job in cjobs %}
+    <div class="c-job row" id="cjob" style="display: hidden;" >
       <div class="left col-8">
-        <h2 title="{{ job.text }}"><s>{{ job.title }}</s></h2>
+        <h2 id="demo"></h2>
       </div>
       <div class="right">
-        <a href="/back/{{ job.id }}/" class="btn btn-info">Back To Incompleted Jobs</a>
+        {# <a href="/back/{{ job.id }}/" class="btn btn-info">Back To Incompleted Jobs</a> #}
       </div>
-      {% endfor %}
     </div>
-    {% endif %}
   </div>
 
 </div> 
 
-<script src="{{ url_for('static', filename='js/todo.js')  }}"></script>
-<script src="{{ url_for('static', filename='js/bootstrap.min.js')  }}"></script>
-<script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+
 {% endblock  %}
