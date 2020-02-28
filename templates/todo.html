@@ -13,22 +13,27 @@
 <h1>Todo</h1>
 {% endblock %}
   <div class="top-buttons">
-    <button type="button" name="new" id="new">New</button>
-    <button type="button" name="completed" id="completed">completed</button>
-    <button type="button" name="incompleted" id="incompleted">incompleted</button>
+    <a href="{{ url_for('new') }}" class="btn btn-outline-primary">New Job</a><br /><br />
+    <button type="button" name="completed" id="completed" class="btn btn-primary btn-sm">completed</button>
+    <a href="{{ url_for('incompleted_jobs_list') }}" class="btn btn-secondary btn-sm">Incompleted Jobs</a><br /><br />
   </div>
-  <div class="jobs">
-    <div class="i-job">
-      <div class="left">
-        <p>Job1</p>
+  <div class="jobs container">
+    {% if ijobs %}
+    <div class="i-job row">
+      {% for job in ijobs %}
+      <div class="left col-8">
+        <h2 title="{{ job.text }}">{{ job.title }}</h2>
       </div>
-      <div class="right">
-        <button type="button" name="edit" id="edit">Edit</button>
-        <button type="button" name="delete" id="delete">Delete</button>
-        <button type="button" name="done" id="done">Done</button>
+      <div class="right col-4">
+        <a href="/edit/{{ job.id }}/" class="btn btn-outline-info" >Edit</a>
+        <a href="/delete/{{ job.id }}/" class="btn btn-outline-danger">Delete</a>
+        <a href="/done/{{ job.id }}/" class="btn btn-outline-warning">Done</a>
       </div>
+      {% endfor %}
     </div>
+    {% endif %}
 
+    {% if cjobs %}
     <div class="c-job">
       <div class="left">
         <s>Job1</s>
@@ -37,6 +42,7 @@
         <button type="button" name="back" id="back">Back</button>
       </div>
     </div>
+    {% endif %}
   </div>
 
 </div> 

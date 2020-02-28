@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_bootstrap import Bootstrap
@@ -32,7 +32,7 @@ class NewForm(FlaskForm):
 
 @app.route("/")
 def index():
-    return render_template("new.html")
+    return redirect(url_for("new"))
 
 
 @app.route("/new/", methods=["GET", "POST"])
@@ -48,7 +48,28 @@ def new():
         db.session.add(job)
         db.session.commit()
         
-        return "Job added"
+        return redirect(url_for("incompleted_jobs_list"))
     
     return render_template("new.html", form=form)
-    
+
+
+@app.route("/incomp/")
+def incompleted_jobs_list():
+    ijobs = Job.query.filter(Job.completed == False).all()
+    return render_template("todo.html", ijobs=ijobs)
+  
+
+@app.route("/edit/<int:job_id>/")
+def edit(job_id):
+    return "edit"
+
+
+@app.route("/delete/<int:job_id>/")
+def delete(job_id):
+    return "delete"
+
+
+@app.route("/done/<int:job_id>/")
+def done(job_id):
+    return "done"
+ 
