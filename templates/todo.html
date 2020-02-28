@@ -14,8 +14,8 @@
 {% endblock %}
   <div class="top-buttons">
     <a href="{{ url_for('new') }}" class="btn btn-outline-primary">New Job</a><br /><br />
-    <button type="button" name="completed" id="completed" class="btn btn-primary btn-sm">completed</button>
-    <a href="{{ url_for('incompleted_jobs_list') }}" class="btn btn-secondary btn-sm">Incompleted Jobs</a><br /><br />
+    <a href="{{ url_for('completed_jobs_list') }}" class="btn btn-secondary btn-sm">Completed Jobs</a>
+    <a href="{{ url_for('incompleted_jobs_list') }}" class="btn btn-primary btn-sm">Incompleted Jobs</a><br /><br />
   </div>
   <div class="jobs container">
     {% if ijobs %}
@@ -34,13 +34,15 @@
     {% endif %}
 
     {% if cjobs %}
-    <div class="c-job">
-      <div class="left">
-        <s>Job1</s>
+    <div class="c-job row">
+      {% for job in cjobs %}
+      <div class="left col-8">
+        <h2 title="{{ job.text }}"><s>{{ job.title }}</s></h2>
       </div>
       <div class="right">
-        <button type="button" name="back" id="back">Back</button>
+        <a href="/back/{{ job.id }}/" class="btn btn-info">Back</a>
       </div>
+      {% endfor %}
     </div>
     {% endif %}
   </div>

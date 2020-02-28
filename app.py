@@ -57,6 +57,12 @@ def new():
 def incompleted_jobs_list():
     ijobs = Job.query.filter(Job.completed == False).all()
     return render_template("todo.html", ijobs=ijobs)
+
+
+@app.route("/comp/")
+def completed_jobs_list():
+    cjobs = Job.query.filter(Job.completed == True).all()
+    return render_template("todo.html", cjobs=cjobs)
   
 
 @app.route("/edit/<int:job_id>/")
