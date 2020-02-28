@@ -46,7 +46,7 @@ def job_exist(func):
 
 @app.route("/")
 def index():
-    return redirect(url_for("new"))
+    return redirect(url_for("incompleted_jobs_list"))
 
 
 @app.route("/new/", methods=["GET", "POST"])
